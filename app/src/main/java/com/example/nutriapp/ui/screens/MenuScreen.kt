@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.nutriapp.navigation.Screen
+import androidx.compose.material3.OutlinedButton
 
 @Composable
 fun MenuScreen(navController: NavHostController) {
@@ -48,6 +49,21 @@ fun MenuScreen(navController: NavHostController) {
                 .height(50.dp)
         ) {
             Text("Ver usuarios registrados")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedButton(//cerrar sesion
+            onClick = {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Menu.route) { inclusive = true }
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        ) {
+            Text("Cerrar sesión")
         }
     }
 }

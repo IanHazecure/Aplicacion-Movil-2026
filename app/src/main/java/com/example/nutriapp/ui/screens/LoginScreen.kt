@@ -74,7 +74,7 @@ fun LoginScreen(navController: NavHostController) {
                         errorMsg = "Correo o contraseña incorrectos"
                     } else {
                         errorMsg = null
-                        navController.navigate(Screen.Minuta.route) {
+                        navController.navigate(Screen.Menu.route) { //CAMBIAR
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     }

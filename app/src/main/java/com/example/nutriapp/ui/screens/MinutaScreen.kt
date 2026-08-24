@@ -25,10 +25,11 @@ import com.example.nutriapp.navigation.Screen
 @Composable
 fun MinutaScreen(navController: NavHostController) {
     val recetas = RecetasRepository.recetas
+
     Column(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(24.dp, 24.dp, 24.dp, 8.dp)) {
             Text(
-                text = "Minuta",
+                text = "Tu minuta semanal",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -44,7 +45,9 @@ fun MinutaScreen(navController: NavHostController) {
             contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
             items(recetas) { receta ->
                 RecetaCard(
@@ -54,6 +57,16 @@ fun MinutaScreen(navController: NavHostController) {
                     }
                 )
             }
+        }
+
+        Button(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
+                .height(50.dp)
+        ) {
+            Text("Volver")
         }
     }
 }
