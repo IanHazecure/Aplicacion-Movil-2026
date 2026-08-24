@@ -10,12 +10,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 @Composable
-
 fun RecuperarPasswordScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var mensajeEnviado by remember { mutableStateOf(false) }
-
-
 
     Column(
         modifier = Modifier
@@ -30,12 +27,15 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
         )
+
         Spacer(modifier = Modifier.height(12.dp))
+
         Text(
             text = "Ingresa tu correo y te enviaremos las instrucciones " +
-                "para restablecer tu contraseña.",
+                    "para restablecer tu contraseña.",
             style = MaterialTheme.typography.bodyMedium
         )
+
         Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
@@ -45,7 +45,9 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(20.dp))
+
         Button(
             onClick = { if (email.isNotBlank()) mensajeEnviado = true },
             modifier = Modifier
@@ -55,17 +57,15 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
             Text("Enviar instrucciones")
         }
 
-
-
         if (mensajeEnviado) {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Listo, revisa tu correo $email",
+                text = "Se envió un correo a $email con las instrucciones para recuperar tu contraseña",
                 color = MaterialTheme.colorScheme.primary
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
 
+        Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = { navController.popBackStack() }) {
             Text("Volver a iniciar sesión")
