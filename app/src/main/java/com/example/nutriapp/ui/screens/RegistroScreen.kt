@@ -166,7 +166,7 @@ fun RegistroScreen(navController: NavHostController) {
                 }
                 if (errorMsg == null) {
                     UsuariosRepository.registrar(Usuario(nombre, email, password))
-                    navController.navigate(Screen.Minuta.route) {
+                    navController.navigate(Screen.Menu.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 }
