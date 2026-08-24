@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,24 +11,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.nutriapp.data.UsuariosRepository
+import com.example.nutriapp.model.Usuario
 import com.example.nutriapp.navigation.Screen
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class) //hay que agregar esto al parecer y arregla el errorlol
 @Composable
+
+
 fun RegistroScreen(navController: NavHostController) {
     var nombre by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+
     val objetivos = listOf("Bajar de peso", "Mantener peso", "Subir masa muscular")
     var objetivoSeleccionado by remember { mutableStateOf(objetivos[0]) }
     var expanded by remember { mutableStateOf(false) }
     val opcionesSexo = listOf("Femenino", "Masculino", "Otro")
     var sexoSeleccionado by remember { mutableStateOf(opcionesSexo[0]) }
-
     var aceptaTerminos by remember { mutableStateOf(false) }
-
     var errorMsg by remember { mutableStateOf<String?>(null) }
+
 
     Column(
         modifier = Modifier
@@ -88,7 +91,6 @@ fun RegistroScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-
         Text(text = "Objetivo nutricional", style = MaterialTheme.typography.labelLarge)
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -103,14 +105,10 @@ fun RegistroScreen(navController: NavHostController) {
                     .menuAnchor()
                     .fillMaxWidth()
             )
-
             ExposedDropdownMenu(
-
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-
-
                 objetivos.forEach { opcion ->
                     DropdownMenuItem(
                         text = { Text(opcion) },
@@ -124,7 +122,6 @@ fun RegistroScreen(navController: NavHostController) {
         }
 
         Spacer(modifier = Modifier.height(20.dp))
-
 
         Text(text = "Sexo", style = MaterialTheme.typography.labelLarge)
         opcionesSexo.forEach { opcion ->
@@ -154,6 +151,7 @@ fun RegistroScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = it, color = MaterialTheme.colorScheme.error)
         }
+
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
@@ -162,10 +160,12 @@ fun RegistroScreen(navController: NavHostController) {
                     nombre.isBlank() || email.isBlank() || password.isBlank() ->
                         "Completa todos los campos"
                     password != confirmPassword -> "Las contraseñas no coinciden"
+                    UsuariosRepository.existeEmail(email) -> "Ese correo ya está registrado"
                     !aceptaTerminos -> "Debes aceptar los términos y condiciones"
                     else -> null
                 }
                 if (errorMsg == null) {
+                    UsuariosRepository.registrar(Usuario(nombre, email, password))
                     navController.navigate(Screen.Minuta.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
@@ -177,6 +177,7 @@ fun RegistroScreen(navController: NavHostController) {
         ) {
             Text("Registrarme")
         }
+
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(
@@ -186,4 +187,7 @@ fun RegistroScreen(navController: NavHostController) {
             Text("Ya tengo cuenta, iniciar sesión")
         }
     }
+
+
+
 }
