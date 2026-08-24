@@ -9,11 +9,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.nutriapp.data.UsuariosRepository
 import com.example.nutriapp.navigation.Screen
 
 @Composable
-
-
 fun LoginScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -39,11 +38,6 @@ fun LoginScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-
-
-
-
-
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -63,12 +57,11 @@ fun LoginScreen(navController: NavHostController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-
-
         errorMsg?.let {
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = it, color = MaterialTheme.colorScheme.error)
         }
+
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
@@ -76,9 +69,14 @@ fun LoginScreen(navController: NavHostController) {
                 if (email.isBlank() || password.isBlank()) {
                     errorMsg = "Completa todos los campos"
                 } else {
-                    errorMsg = null
-                    navController.navigate(Screen.Minuta.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
+                    val usuario = UsuariosRepository.validar(email, password)
+                    if (usuario == null) {
+                        errorMsg = "Correo o contraseña incorrectos"
+                    } else {
+                        errorMsg = null
+                        navController.navigate(Screen.Minuta.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
                     }
                 }
             },
@@ -88,19 +86,15 @@ fun LoginScreen(navController: NavHostController) {
         ) {
             Text("Iniciar sesión")
         }
+
         Spacer(modifier = Modifier.height(8.dp))
 
-//recuperar pss
         TextButton(onClick = { navController.navigate(Screen.RecuperarPassword.route) }) {
             Text("¿Olvidaste tu contraseña?")
         }
 
-        //reg
         TextButton(onClick = { navController.navigate(Screen.Registro.route) }) {
             Text("¿No tienes cuenta? Regístrate aquí")
         }
-
-
-
     }
 }
