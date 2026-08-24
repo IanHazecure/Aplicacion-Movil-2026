@@ -1,2 +1,57 @@
 package com.example.nutriapp.ui.screens
 
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.nutriapp.data.UsuariosRepository
+
+
+@Composable
+fun ListaUsuariosScreen(navController: NavHostController) {
+    val usuarios = UsuariosRepository.usuarios
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.padding(24.dp, 24.dp, 24.dp, 8.dp)) {
+            Text(
+                text = "Usuarios registrados",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = "${usuarios.size} usuarios en el sistema",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.weight(1f)
+        ) {
+            items(usuarios) { usuario ->
+                UsuarioCard(usuario)
+            }
+        }
+
+        Button(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
+                .height(50.dp)
+        ) {
+            Text("Volver")
+        }
+    }
+}
+
