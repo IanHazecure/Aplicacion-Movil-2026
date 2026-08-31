@@ -11,6 +11,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.nutriapp.data.UsuariosRepository
 import com.example.nutriapp.navigation.Screen
+import com.example.nutriapp.ui.components.MensajeError
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Login
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -42,6 +47,7 @@ fun LoginScreen(navController: NavHostController) {
             value = email,
             onValueChange = { email = it },
             label = { Text("Correo electrónico") },
+            leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -52,14 +58,15 @@ fun LoginScreen(navController: NavHostController) {
             value = password,
             onValueChange = { password = it },
             label = { Text("Contraseña") },
+            leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
 
         errorMsg?.let {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = it, color = MaterialTheme.colorScheme.error)
+            Spacer(modifier = Modifier.height(12.dp))
+            MensajeError(it)
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -74,7 +81,7 @@ fun LoginScreen(navController: NavHostController) {
                         errorMsg = "Correo o contraseña incorrectos"
                     } else {
                         errorMsg = null
-                        navController.navigate(Screen.Menu.route) { //CAMBIAR
+                        navController.navigate(Screen.Menu.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     }
@@ -84,6 +91,8 @@ fun LoginScreen(navController: NavHostController) {
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
+            Icon(Icons.Filled.Login, contentDescription = null)
+            Spacer(modifier = Modifier.width(8.dp))
             Text("Iniciar sesión")
         }
 
