@@ -14,6 +14,7 @@ import com.example.nutriapp.ui.screens.MinutaScreen
 import com.example.nutriapp.ui.screens.RecetaDetalleScreen
 import com.example.nutriapp.ui.screens.RecuperarPasswordScreen
 import com.example.nutriapp.ui.screens.RegistroScreen
+import com.example.nutriapp.ui.screens.AyudaScreen //******
 
 @Composable
 fun NavGraph(navController: NavHostController = rememberNavController()) {
