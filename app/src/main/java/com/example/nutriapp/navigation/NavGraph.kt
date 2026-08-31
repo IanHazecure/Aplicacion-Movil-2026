@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.nutriapp.ui.screens.AyudaScreen
 import com.example.nutriapp.ui.screens.ListaUsuariosScreen
 import com.example.nutriapp.ui.screens.LoginScreen
 import com.example.nutriapp.ui.screens.MenuScreen

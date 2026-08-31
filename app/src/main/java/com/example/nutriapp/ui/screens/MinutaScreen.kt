@@ -9,8 +9,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,7 +16,7 @@ import androidx.navigation.NavHostController
 import com.example.nutriapp.data.RecetasRepository
 import com.example.nutriapp.model.Receta
 import com.example.nutriapp.navigation.Screen
-
+import androidx.compose.ui.Modifier
 
 
 ///////////////
@@ -72,9 +70,6 @@ fun MinutaScreen(navController: NavHostController) {
 }
 
 @Composable
-
-
-
 private fun RecetaCard(receta: Receta, onClick: () -> Unit) {
     Column(
         modifier = Modifier

@@ -8,11 +8,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.nutriapp.data.UsuariosRepository
+import com.example.nutriapp.ui.components.MensajeError
+import com.example.nutriapp.ui.components.MensajeExito
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Send
 
 @Composable
 fun RecuperarPasswordScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var mensajeEnviado by remember { mutableStateOf(false) }
+    var errorMsg by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -40,8 +47,13 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
 
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                mensajeEnviado = false
+                errorMsg = null
+            },
             label = { Text("Correo electrónico") },
+            leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -49,20 +61,39 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { if (email.isNotBlank()) mensajeEnviado = true },
+            onClick = {
+                when {
+                    email.isBlank() -> {
+                        errorMsg = "Ingresa tu correo electrónico"
+                        mensajeEnviado = false
+                    }
+                    !UsuariosRepository.existeEmail(email) -> {
+                        errorMsg = "No existe una cuenta registrada con ese correo"
+                        mensajeEnviado = false
+                    }
+                    else -> {
+                        errorMsg = null
+                        mensajeEnviado = true
+                    }
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
+            Icon(Icons.Filled.Send, contentDescription = null)
+            Spacer(modifier = Modifier.width(8.dp))
             Text("Enviar instrucciones")
+        }
+
+        errorMsg?.let {
+            Spacer(modifier = Modifier.height(12.dp))
+            MensajeError(it)
         }
 
         if (mensajeEnviado) {
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = "Se envió un correo a $email con las instrucciones para recuperar tu contraseña",
-                color = MaterialTheme.colorScheme.primary
-            )
+            MensajeExito("Se envió un correo a $email con las instrucciones para recuperar tu contraseña")
         }
 
         Spacer(modifier = Modifier.height(8.dp))
