@@ -16,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Warning
+
 
 @Composable
 fun MensajeError(texto: String) {
@@ -36,6 +38,27 @@ fun MensajeError(texto: String) {
         )
         androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(8.dp))
         Text(text = texto, color = MaterialTheme.colorScheme.error)
+    }
+}
+
+@Composable
+fun MensajeExito(texto: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
+            .padding(12.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.CheckCircle,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(24.dp)
+        )
+        androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(8.dp))
+        Text(text = texto, color = MaterialTheme.colorScheme.primary)
     }
 }
 
