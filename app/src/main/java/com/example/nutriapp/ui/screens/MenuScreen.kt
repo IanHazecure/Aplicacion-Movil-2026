@@ -14,75 +14,78 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.nutriapp.navigation.Screen
+import com.example.nutriapp.ui.components.ContenedorAdaptativo
 
 @Composable
 fun MenuScreen(navController: NavHostController) {
     var mostrarConfirmacion by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "NutriApp",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Button(
-            onClick = { navController.navigate(Screen.Minuta.route) },
+    ContenedorAdaptativo {
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(Icons.Filled.RestaurantMenu, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Ver mi minuta semanal")
-        }
+            Text(
+                text = "NutriApp",
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
-        Button(
-            onClick = { navController.navigate(Screen.ListaUsuarios.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Icon(Icons.Filled.People, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Ver usuarios registrados")
-        }
+            Button(
+                onClick = { navController.navigate(Screen.Minuta.route) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Icon(Icons.Filled.RestaurantMenu, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Ver mi minuta semanal")
+            }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedButton(
-            onClick = { navController.navigate(Screen.Ayuda.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Icon(Icons.Filled.HelpOutline, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Ayuda")
-        }
+            Button(
+                onClick = { navController.navigate(Screen.ListaUsuarios.route) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Icon(Icons.Filled.People, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Ver usuarios registrados")
+            }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedButton(
-            onClick = { mostrarConfirmacion = true },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Icon(Icons.Filled.Logout, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Cerrar sesión")
+            OutlinedButton(
+                onClick = { navController.navigate(Screen.Ayuda.route) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Icon(Icons.Filled.HelpOutline, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Ayuda")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedButton(
+                onClick = { mostrarConfirmacion = true },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Icon(Icons.Filled.Logout, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Cerrar sesión")
+            }
         }
     }
 
@@ -109,3 +112,4 @@ fun MenuScreen(navController: NavHostController) {
         )
     }
 }
+

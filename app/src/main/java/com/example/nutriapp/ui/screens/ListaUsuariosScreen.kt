@@ -2,8 +2,9 @@ package com.example.nutriapp.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.nutriapp.data.UsuariosRepository
 import com.example.nutriapp.model.Usuario
+
 
 @Composable
 fun ListaUsuariosScreen(navController: NavHostController) {
@@ -30,13 +32,15 @@ fun ListaUsuariosScreen(navController: NavHostController) {
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = "${usuarios.size} usuarios en el sistema",
+                text = "${usuarios.size} de ${UsuariosRepository.MAX_USUARIOS} usuarios en el sistema",
                 style = MaterialTheme.typography.bodyMedium
             )
         }
 
-        LazyColumn(
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 280.dp),
             contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.weight(1f)
         ) {

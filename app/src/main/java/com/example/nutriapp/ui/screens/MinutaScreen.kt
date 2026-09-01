@@ -39,7 +39,7 @@ fun MinutaScreen(navController: NavHostController) {
         }
 
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+            columns = GridCells.Adaptive(minSize = 160.dp),
             contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -97,6 +97,8 @@ private fun RecetaCard(receta: Receta, onClick: () -> Unit) {
             style = MaterialTheme.typography.bodyMedium
         )
     }
+
+
 
 
 

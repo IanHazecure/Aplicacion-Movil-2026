@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Login
+import com.example.nutriapp.ui.components.ContenedorAdaptativo
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -23,87 +24,90 @@ fun LoginScreen(navController: NavHostController) {
     var password by remember { mutableStateOf("") }
     var errorMsg by remember { mutableStateOf<String?>(null) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "NutriApp",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = "Tu minuta nutricional semanal",
-            style = MaterialTheme.typography.bodyMedium
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Correo electrónico") },
-            leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Contraseña") },
-            leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        errorMsg?.let {
-            Spacer(modifier = Modifier.height(12.dp))
-            MensajeError(it)
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Button(
-            onClick = {
-                if (email.isBlank() || password.isBlank()) {
-                    errorMsg = "Completa todos los campos"
-                } else {
-                    val usuario = UsuariosRepository.validar(email, password)
-                    if (usuario == null) {
-                        errorMsg = "Correo o contraseña incorrectos"
-                    } else {
-                        errorMsg = null
-                        navController.navigate(Screen.Menu.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
-                        }
-                    }
-                }
-            },
+    ContenedorAdaptativo {
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(Icons.Filled.Login, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Iniciar sesión")
-        }
+            Text(
+                text = "NutriApp",
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = "Tu minuta nutricional semanal",
+                style = MaterialTheme.typography.bodyMedium
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
-        TextButton(onClick = { navController.navigate(Screen.RecuperarPassword.route) }) {
-            Text("¿Olvidaste tu contraseña?")
-        }
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Correo electrónico") },
+                leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        TextButton(onClick = { navController.navigate(Screen.Registro.route) }) {
-            Text("¿No tienes cuenta? Regístrate aquí")
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
+                singleLine = true,
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            errorMsg?.let {
+                Spacer(modifier = Modifier.height(12.dp))
+                MensajeError(it)
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = {
+                    if (email.isBlank() || password.isBlank()) {
+                        errorMsg = "Completa todos los campos"
+                    } else {
+                        val usuario = UsuariosRepository.validar(email, password)
+                        if (usuario == null) {
+                            errorMsg = "Correo o contraseña incorrectos"
+                        } else {
+                            errorMsg = null
+                            navController.navigate(Screen.Menu.route) {
+                                popUpTo(Screen.Login.route) { inclusive = true }
+                            }
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Icon(Icons.Filled.Login, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Iniciar sesión")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextButton(onClick = { navController.navigate(Screen.RecuperarPassword.route) }) {
+                Text("¿Olvidaste tu contraseña?")
+            }
+
+            TextButton(onClick = { navController.navigate(Screen.Registro.route) }) {
+                Text("¿No tienes cuenta? Regístrate aquí")
+            }
         }
     }
 }
+

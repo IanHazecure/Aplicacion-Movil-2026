@@ -14,6 +14,7 @@ import com.example.nutriapp.ui.components.MensajeExito
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Send
+import com.example.nutriapp.ui.components.ContenedorAdaptativo
 
 @Composable
 fun RecuperarPasswordScreen(navController: NavHostController) {
@@ -21,85 +22,87 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
     var mensajeEnviado by remember { mutableStateOf(false) }
     var errorMsg by remember { mutableStateOf<String?>(null) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Recuperar contraseña",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Text(
-            text = "Ingresa tu correo y te enviaremos las instrucciones " +
-                    "para restablecer tu contraseña.",
-            style = MaterialTheme.typography.bodyMedium
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = {
-                email = it
-                mensajeEnviado = false
-                errorMsg = null
-            },
-            label = { Text("Correo electrónico") },
-            leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {
-                when {
-                    email.isBlank() -> {
-                        errorMsg = "Ingresa tu correo electrónico"
-                        mensajeEnviado = false
-                    }
-                    !UsuariosRepository.existeEmail(email) -> {
-                        errorMsg = "No existe una cuenta registrada con ese correo"
-                        mensajeEnviado = false
-                    }
-                    else -> {
-                        errorMsg = null
-                        mensajeEnviado = true
-                    }
-                }
-            },
+    ContenedorAdaptativo {
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(Icons.Filled.Send, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Enviar instrucciones")
-        }
+            Text(
+                text = "Recuperar contraseña",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
 
-        errorMsg?.let {
             Spacer(modifier = Modifier.height(12.dp))
-            MensajeError(it)
-        }
 
-        if (mensajeEnviado) {
-            Spacer(modifier = Modifier.height(12.dp))
-            MensajeExito("Se envió un correo a $email con las instrucciones para recuperar tu contraseña")
-        }
+            Text(
+                text = "Ingresa tu correo y te enviaremos las instrucciones " +
+                        "para restablecer tu contraseña.",
+                style = MaterialTheme.typography.bodyMedium
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        TextButton(onClick = { navController.popBackStack() }) {
-            Text("Volver a iniciar sesión")
+            OutlinedTextField(
+                value = email,
+                onValueChange = {
+                    email = it
+                    mensajeEnviado = false
+                    errorMsg = null
+                },
+                label = { Text("Correo electrónico") },
+                leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+                onClick = {
+                    when {
+                        email.isBlank() -> {
+                            errorMsg = "Ingresa tu correo electrónico"
+                            mensajeEnviado = false
+                        }
+                        !UsuariosRepository.existeEmail(email) -> {
+                            errorMsg = "No existe una cuenta registrada con ese correo"
+                            mensajeEnviado = false
+                        }
+                        else -> {
+                            errorMsg = null
+                            mensajeEnviado = true
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Icon(Icons.Filled.Send, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Enviar instrucciones")
+            }
+
+            errorMsg?.let {
+                Spacer(modifier = Modifier.height(12.dp))
+                MensajeError(it)
+            }
+
+            if (mensajeEnviado) {
+                Spacer(modifier = Modifier.height(12.dp))
+                MensajeExito("Se envió un correo a $email con las instrucciones para recuperar tu contraseña")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextButton(onClick = { navController.popBackStack() }) {
+                Text("Volver a iniciar sesión")
+            }
         }
     }
 }
