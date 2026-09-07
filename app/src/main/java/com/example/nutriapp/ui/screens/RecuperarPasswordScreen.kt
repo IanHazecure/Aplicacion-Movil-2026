@@ -8,16 +8,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.nutriapp.data.UsuariosRepository
 import com.example.nutriapp.ui.components.MensajeError
 import com.example.nutriapp.ui.components.MensajeExito
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Send
+/////
+import com.example.nutriapp.data.AutenticacionService
+import com.example.nutriapp.data.ResultadoAuth
 import com.example.nutriapp.ui.components.ContenedorAdaptativo
-
+/////
 @Composable
 fun RecuperarPasswordScreen(navController: NavHostController) {
+    val autenticacionService = remember { AutenticacionService() }
+
     var email by remember { mutableStateOf("") }
     var mensajeEnviado by remember { mutableStateOf(false) }
     var errorMsg by remember { mutableStateOf<String?>(null) }
@@ -64,16 +68,12 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
 
             Button(
                 onClick = {
-                    when {
-                        email.isBlank() -> {
-                            errorMsg = "Ingresa tu correo electrónico"
+                    when (val resultado = autenticacionService.solicitarRecuperacion(email)) {
+                        is ResultadoAuth.Error -> {
+                            errorMsg = resultado.mensaje
                             mensajeEnviado = false
                         }
-                        !UsuariosRepository.existeEmail(email) -> {
-                            errorMsg = "No existe una cuenta registrada con ese correo"
-                            mensajeEnviado = false
-                        }
-                        else -> {
+                        is ResultadoAuth.Exito -> {
                             errorMsg = null
                             mensajeEnviado = true
                         }

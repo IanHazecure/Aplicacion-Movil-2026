@@ -21,7 +21,7 @@ import com.example.nutriapp.model.Usuario
 
 @Composable
 fun ListaUsuariosScreen(navController: NavHostController) {
-    val usuarios = UsuariosRepository.usuarios
+    val usuarios = UsuariosRepository.instancia.obtenerUsuarios() ////
 
     Column(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(24.dp, 24.dp, 24.dp, 8.dp)) {

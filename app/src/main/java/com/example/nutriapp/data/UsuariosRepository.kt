@@ -10,7 +10,6 @@ class UsuariosRepository private constructor() {
         Usuario("Camila Rojas", "camila@gmail.com", "pass123"),
         Usuario("Ignacio Pérez", "ignacio@gmail.com", "pass123"),
         Usuario("Valentina Navarro", "valentina@gmail.com", "pass123"),
-        Usuario("Diego Fuentes", "diego@gmail.com", "pass123")
     )
 
     fun obtenerUsuarios(): List<Usuario> = usuarios
