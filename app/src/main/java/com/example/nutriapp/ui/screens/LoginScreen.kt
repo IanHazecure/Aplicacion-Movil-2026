@@ -9,17 +9,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.nutriapp.data.UsuariosRepository
+import com.example.nutriapp.data.AutenticacionService
+import com.example.nutriapp.data.ResultadoAuth
 import com.example.nutriapp.navigation.Screen
+import com.example.nutriapp.ui.components.ContenedorAdaptativo
 import com.example.nutriapp.ui.components.MensajeError
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Login
-import com.example.nutriapp.ui.components.ContenedorAdaptativo
-
 @Composable
 fun LoginScreen(navController: NavHostController) {
+    val autenticacionService = remember { AutenticacionService() }
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMsg by remember { mutableStateOf<String?>(null) }
@@ -75,13 +77,9 @@ fun LoginScreen(navController: NavHostController) {
 
             Button(
                 onClick = {
-                    if (email.isBlank() || password.isBlank()) {
-                        errorMsg = "Completa todos los campos"
-                    } else {
-                        val usuario = UsuariosRepository.validar(email, password)
-                        if (usuario == null) {
-                            errorMsg = "Correo o contraseña incorrectos"
-                        } else {
+                    when (val resultado = autenticacionService.iniciarSesion(email, password)) {
+                        is ResultadoAuth.Error -> errorMsg = resultado.mensaje
+                        is ResultadoAuth.Exito -> {
                             errorMsg = null
                             navController.navigate(Screen.Menu.route) {
                                 popUpTo(Screen.Login.route) { inclusive = true }
@@ -110,4 +108,3 @@ fun LoginScreen(navController: NavHostController) {
         }
     }
 }
-
