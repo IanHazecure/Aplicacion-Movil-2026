@@ -18,14 +18,27 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Login
+
+import androidx.compose.ui.platform.LocalContext
+import com.example.nutriapp.data.PreferenciasUsuario
 @Composable
 fun LoginScreen(navController: NavHostController) {
     val autenticacionService = remember { AutenticacionService() }
-
+    val context = LocalContext.current
+    val preferencias = remember { PreferenciasUsuario(context) }
+///////////////////
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMsg by remember { mutableStateOf<String?>(null) }
+    var recordarCorreo by remember { mutableStateOf(false) }
 
+    LaunchedEffect(Unit) {
+        preferencias.obtenerCorreo()?.let {
+            email = it
+            recordarCorreo = true
+        }
+    }
+//////
     ContenedorAdaptativo {
         Column(
             modifier = Modifier
@@ -68,6 +81,18 @@ fun LoginScreen(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth()
             )
 
+            ///errorMsg?.let {
+                ////Spacer(modifier = Modifier.height(12.dp))
+                ///MensajeError(it)
+            ///}
+
+           //// Spacer(modifier = Modifier.height(24.dp))///
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(checked = recordarCorreo, onCheckedChange = { recordarCorreo = it })
+                Text("Recordar mi correo")
+            }
+
             errorMsg?.let {
                 Spacer(modifier = Modifier.height(12.dp))
                 MensajeError(it)
@@ -81,6 +106,7 @@ fun LoginScreen(navController: NavHostController) {
                         is ResultadoAuth.Error -> errorMsg = resultado.mensaje
                         is ResultadoAuth.Exito -> {
                             errorMsg = null
+                            if (recordarCorreo) preferencias.guardarCorreo(email) else preferencias.borrarCorreo()
                             navController.navigate(Screen.Menu.route) {
                                 popUpTo(Screen.Login.route) { inclusive = true }
                             }
