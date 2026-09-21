@@ -18,10 +18,22 @@ import androidx.navigation.NavHostController
 import com.example.nutriapp.data.UsuariosRepository
 import com.example.nutriapp.model.Usuario
 
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 @Composable
+//fun ListaUsuariosScreen(navController: NavHostController) {
+    ////val usuarios = UsuariosRepository.instancia.obtenerUsuarios() ////al final si lo cambie x
 fun ListaUsuariosScreen(navController: NavHostController) {
-    val usuarios = UsuariosRepository.instancia.obtenerUsuarios() ////
+    var busqueda by remember { mutableStateOf("") }
+    val usuarios = if (busqueda.isBlank()) {
+        UsuariosRepository.instancia.obtenerUsuarios()
+    } else {
+        UsuariosRepository.instancia.buscarPorNombre(busqueda)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(24.dp, 24.dp, 24.dp, 8.dp)) {
@@ -35,7 +47,20 @@ fun ListaUsuariosScreen(navController: NavHostController) {
                 text = "${usuarios.size} de ${UsuariosRepository.MAX_USUARIOS} usuarios en el sistema",
                 style = MaterialTheme.typography.bodyMedium
             )
+            Spacer(modifier = Modifier.height(12.dp))
+            OutlinedTextField(
+                value = busqueda,
+                onValueChange = { busqueda = it },
+                label = { Text("Buscar por nombre") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
+            //Text(
+                ///text = "${usuarios.size} de ${UsuariosRepository.MAX_USUARIOS} usuarios en el sistema",
+                ///style = MaterialTheme.typography.bodyMedium
+            ///)
+        ///}
 
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 280.dp),
