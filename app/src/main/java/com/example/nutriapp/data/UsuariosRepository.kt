@@ -26,8 +26,16 @@ class UsuariosRepository private constructor() {
         return usuarios.size >= MAX_USUARIOS
     }
 
+    //fun registrar(usuario: Usuario) {
+      //  usuarios.add(usuario)
+    //}
+
     fun registrar(usuario: Usuario) {
         usuarios.add(usuario)
+    }
+
+    fun buscarPorNombre(query: String): List<Usuario> {
+        return usuarios.filter { it.nombre.contains(query, ignoreCase = true) }
     }
 
     companion object {
