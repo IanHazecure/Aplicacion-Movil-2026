@@ -2,13 +2,13 @@ package com.example.nutriapp.model
 
 
 data class Receta(
-    val id: Int,
-    val dia: String,
-    val nombre: String,
-    val descripcion: String,
-    val calorias: Int,
-    val proteinasG: Int,
-    val carbohidratosG: Int,
-    val grasasG: Int,
-    val recomendacion: String
+    val id: String = "",
+    val dia: String = "",
+    val nombre: String = "",
+    val descripcion: String = "",
+    val calorias: Int = 0,
+    val proteinasG: Int = 0,
+    val carbohidratosG: Int = 0,
+    val grasasG: Int = 0,
+    val recomendacion: String = ""
 )

@@ -1,4 +1,4 @@
-package com.example.nutriapp.data
+/*package com.example.nutriapp.data
 
 import com.example.nutriapp.model.Usuario
 
@@ -56,3 +56,5 @@ class AutenticacionService(
         }
     }
 }
+ */
+
